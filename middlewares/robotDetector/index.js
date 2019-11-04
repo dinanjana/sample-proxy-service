@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   if (record != null) {
     if ((currTime - record.firstReqTime) < LIMIT) {
       ++record.attempts;
-      if (record.attempts >= 5) {
+      if (record.attempts >= 20) {
         res.setStatus(400).send('Robot Detected');
         return;
       }
