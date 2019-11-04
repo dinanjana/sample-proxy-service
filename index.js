@@ -15,6 +15,10 @@ const authorization = require('./middlewares/authorization');
 
 const { faceAnalyzerProxy } = require('./services/ProxyService');
 
+const reqLogger = require('./middlewares/requestLogger');
+
+const robotDetector = require('./middlewares/robotDetector');
+
 const port = 9000;
 
 const app = express();
@@ -24,6 +28,10 @@ app.use(BodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 initPassport();
+
+app.use(reqLogger);
+
+app.use(robotDetector);
 
 app.get('/ai_module/api/analyzer/:querySubject', passport.authenticate('bearer', { session: false }), authorization, faceAnalyzerProxy);
 
